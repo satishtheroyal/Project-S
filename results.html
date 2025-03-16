@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Progress Report</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+    * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        margin: 10px;
+      }
+      h1 {
+        text-align: center;
+        color: #2c3e50;
+        font-size: 16px;
+      }
+      h2 {
+        font-size: 12px;
+      }
+      .container {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+  
+      }
+      table {
+        width: 48%;
+        border-collapse: collapse;
+        margin-bottom: 10px;
+        font-size: 10px;
+      }
+      th, td {
+        border: 1px solid #ddd;
+        padding: 5px;
+        text-align: center;
+      }
+      th {
+        background-color: #3295d7;
+        color: white;
+      }
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+      tr:hover {
+        background-color: #ddd;
+      }
+      .year-con {
+        font-size: 20px;
+        margin: 0;
+        padding: 0;
+      }
+      head{
+          
+          padding: 2;
+          display:block;
+        
+        }
+        .flex-end{
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+      }
+      
+      @media print {
+        html, body {
+          margin: 0;
+          padding: 0;
+          transform: scale(1);
+          transform-origin: top left;
+          height: 100%;
+          width: 100%;
+        }
+        .head-con{
+          background-color: blue;
+        }
+        head{
+          margin: 0;
+          padding: 0;
+          display: none;
+        
+        }
+        th {
+        background-color: #3295d7;
+        color: white;
+        font-size: 6px;
+      }
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+      tr:hover {
+        background-color: #ddd;
+      }
+        .container {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+        }
+        table {
+          width: 45%;
+          font-size: 4px;
+          margin-bottom: 1px;
+        }
+        th, td {
+          padding: 2px;
+        }
+        .print-hidden {
+          display: none;
+        }
+        .text-xs {
+          font-size: 7px;
+        }
+        .p-6 {
+          padding: 2px;
+        }
+        .mt-8 {
+          margin-top: 2px;
+        }
+        h1 {
+          font-size: 12px;
+        }
+        h2 {
+          font-size: 8px;
+        }
+        p, strong {
+          font-size: 6px;
+        }
+        .sgpa {
+          font-size: 7px;
+        }
+
+        .main-container {
+          width: 100%;
+          height: 100%;
+        }
+        .max-w-6xl {
+        max-width: none !important;
+        width: 100% !important;
+      }
+        .button {
+          display: none;
+        }
+        .mt-8{
+          margin-top: 20px;
+        }
+        .bg-blue-800, .bg-gray-50 {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .bg-blue-800{
+        padding:10px;
+      }
+      .year-con {
+        font-size: 7px;
+       
+      }
+      .flex-end{
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+      }
+   
+      } 
+
+
+    
+    </style>
+  </head>
+  <body class="bg-gray-100 p-8">
+    <div class="max-w-6xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden relative main-container flex-column justify-center   ">
+      <div class="bg-blue-800 text-white p-6">
+        <div>
+          <img src="https://tse2.mm.bing.net/th?id=OIP.H4ag9CMmX22Zb9MTGou7PgHaHa&pid=Api&P=0&h=180" 
+              alt="BVC College Logo" class="w-16 h-16 float-left">
+        </div>
+        <h1 class="text-2xl font-bold text-center text-white">BVC COLLEGE OF ENGINEERING</h1>
+        <h2 class="text-0xl text-center">Palacharla (V), Rajanagaram (M),AUTONOMOUS | NAAC 'A'</h2>
+        <br/>
+        <div class="mt-4 grid grid-cols-2 gap-4">
+          <div>
+            <p><strong>Name:</strong> <span id="studentName"></span></p>
+            <p><strong>Branch:</strong> <span id="studentBranch"></span></p>
+          </div>
+          <div class="text-right">
+            <p><strong>Reg No:</strong> <span id="studentRegNo"></span></p>
+            <p><strong>academicyear:</strong> <span id="academicyear"></span></p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="container" id="tablesContainer">
+        <!-- Tables will be populated dynamically here -->
+      </div>
+      <div class="flex-end mt-8">
+      <div class="ml-4">
+        <p class="font-bold">Overall CGPA: <span id="cgpa">N/A</span></p>
+        <p>NO.OF CREDITS REGISTERED : 160</p>
+      </div>
+
+      <div class="bg-gray-50 mt-8 p-6 text-xs">
+
+
+        <div class="flex justify-around items-center">
+          <div class="text-left">
+          
+            <p class  =   " mt-8" >STUDENT SIGNATURE</p>
+          </div>
+          <div>
+            <button onclick="window.print()" class=" button bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+              Print Result
+            </button>
+
+
+          </div>
+
+          <div class="text-right">
+          
+            <p class="mt-8">PRINCIPAL SIGNATURE</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </div>
+    <script src="script.js"></script>
+  </body>
+  </html>
