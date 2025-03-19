@@ -1,7 +1,7 @@
     document.addEventListener("DOMContentLoaded", function () {
         const storedData = localStorage.getItem('studentData');
         const htno = JSON.parse(storedData).rollno;
-        const apiUrl =` http://localhost:5000/api/results/${htno}`;
+        const apiUrl =` http://localhost:4000/api/results/${htno}`; 
 
         const gradeValues = {
             "A+": 10, "A": 9, "B": 8, "C": 7, "D": 6, "E": 5, "F": 0
@@ -25,34 +25,80 @@
             document.getElementById('academicyear').textContent = formData.yearValue;
         }
 
+        // function calculateSGPA(grades, credits) {
+        //     let totalCredits = 0;
+        //     let totalGradePoints = 0;
+
+        //     grades.forEach((grade, index) => {
+        //         const gradePoint = gradeValues[grade] || 0;
+        //         const credit = Number(credits[index]) || 0;
+        //         totalGradePoints += gradePoint * credit;
+        //         totalCredits += credit;
+        //     });
+
+            
+
+        //     return totalCredits > 0 ? (totalGradePoints / totalCredits).toFixed(2) : "N/A";
+        // }
+
+
         function calculateSGPA(grades, credits) {
             let totalCredits = 0;
             let totalGradePoints = 0;
-
-            grades.forEach((grade, index) => {
-                const gradePoint = gradeValues[grade] || 0;
-                const credit = Number(credits[index]) || 0;
+        
+            for (let i = 0; i < grades.length; i++) {
+                if (grades[i] === 'F') {
+                    return "N/A"; // Return "N/A" if any grade is 'F'
+                }
+        
+                const gradePoint = gradeValues[grades[i]] || 0;
+                const credit = Number(credits[i]) || 0;
                 totalGradePoints += gradePoint * credit;
                 totalCredits += credit;
-            });
-
+            }
+        
             return totalCredits > 0 ? (totalGradePoints / totalCredits).toFixed(2) : "N/A";
         }
+        
 
-        function calculateCGPA() {
+        // function calculateCGPA() {      
+        //     let totalCredits = 0;
+        //     let totalWeightedSgpa = 0;
+
+        //     Object.keys(semesterSgpa).forEach((semester) => {
+        //         const sgpa = Number(semesterSgpa[semester]);
+        //         const credits = semesterCredits[semester];
+
+        //         totalWeightedSgpa += sgpa * credits;
+        //         totalCredits += credits;
+        //     });
+
+        //     return totalCredits > 0 ? (totalWeightedSgpa / totalCredits).toFixed(2) : "N/A";
+        // }
+
+
+        function calculateCGPA() {      
             let totalCredits = 0;
             let totalWeightedSgpa = 0;
-
-            Object.keys(semesterSgpa).forEach((semester) => {
-                const sgpa = Number(semesterSgpa[semester]);
+        
+            for (let semester in semesterSgpa) {
+                const sgpa = semesterSgpa[semester];
+        
+                // Check if sgpa is "N/A"
+                if (sgpa === "N/A") {
+                    return "N/A";
+                }
+        
                 const credits = semesterCredits[semester];
-
-                totalWeightedSgpa += sgpa * credits;
+                totalWeightedSgpa += Number(sgpa) * credits;
                 totalCredits += credits;
-            });
-
+            }
+        
             return totalCredits > 0 ? (totalWeightedSgpa / totalCredits).toFixed(2) : "N/A";
         }
+        
+
+
 
         fetch(apiUrl)
             .then(response => response.json())
@@ -72,6 +118,7 @@
 
                 Object.keys(data).forEach((semesterKey) => {
                     const semesterData = data[semesterKey];
+                    console.log(semesterData);
                     const semester = { results_1_1:"Semester 1" , results_1_2 : "Semester 2", results_2_1 : "Semester 1", results_2_2 : "Semester 2", results_3_1 : "Semester 1", results_3_2 : "Semester 2", results_4_1 : "Semester 1", results_4_2 : "Semester 2"};
 
                     semesterGrades[semesterKey] = semesterData.map(row => row.Grade);
@@ -136,6 +183,7 @@
                     console.log(semesterKey);
                     const sgpa = calculateSGPA(semesterGrades[semesterKey], credits);
                     semesterSgpa[semesterKey] = sgpa;
+                    console.log(semesterSgpa);
 
                     const sgpaDisplay = document.createElement("div");
                     sgpaDisplay.className = "sgpa mt-2 font-semibold";
