@@ -1,7 +1,7 @@
     document.addEventListener("DOMContentLoaded", function () {
         const storedData = localStorage.getItem('studentData');
         const htno = JSON.parse(storedData).rollno;
-        const apiUrl =` http://localhost:4000/api/results/${htno}`; 
+        const apiUrl =` https://bvcr-cmm-backend-bazi.onrender.com/api/results/${htno}`; 
 
         const gradeValues = {
             "A+": 10, "A": 9, "B": 8, "C": 7, "D": 6, "E": 5, "F": 0
